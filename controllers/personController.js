@@ -4,7 +4,6 @@ var router = express.Router()
 var { Person } = require('../model/person.js')
 var ObjectId = require('mongoose').Types.ObjectId
 
-//localhost:300/person
 router.get('/',(req,res) =>{
     Person.find((err,doc) =>{
         if(!err){res.send(doc)}
@@ -12,15 +11,6 @@ router.get('/',(req,res) =>{
     })
 })
 
-// router.get('/:id',(req,res) => {
-//      if(!ObjectId.isValid(req.params.id))
-//      return res.status(400).send('No record with given id: $(req.params.id)');
-
-//      Person.findById(req.params.id, (err, docs) => {
-//          if(!err){res.send(docs)}
-//          else{ console.log("Erroe in retrieving people:" + JSON.stringify(err, undefined, 2)) }
-//         });
-// })
 
 router.post('/',(req,res) => {
     var per = new Person({
@@ -28,8 +18,6 @@ router.post('/',(req,res) => {
         mail : req.body.mail,
         class : req.body.class
     });
-    console.log(req.body.mail);
-    // Demo
     Person.findOne({'mail':req.body.mail}, (err, docs) => {
         if(!docs) {
             per.save((err, doc) => {
@@ -46,11 +34,6 @@ router.post('/',(req,res) => {
             }) 
         }
     })
-    // Demo
-    // per.save((err, doc) => {
-    //     if(!err){res.send(doc)}
-    //     else { console.log('Error in retrieving persons' + JSON.stringify(err, undefined, 2)); }
-    // });
 })
 router.put('/:id',(req,res) => {
     if(!ObjectId.isValid(req.params.id))
