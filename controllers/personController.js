@@ -11,12 +11,7 @@ router.get('/',(req,res) =>{
     })
 })
 
-router.get('/apptesting',(req,res) =>{
-    res.send({
-      "message":"App is working fine",
-      "status":200
-    })
-})
+
 
 
 router.post('/',(req,res) => {
