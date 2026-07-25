@@ -1,0 +1,35 @@
+service: CodeztechMeanStackCrud
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  deploymentMethod: direct
+  runtime: nodejs22.x
+  region: ${opt:region, 'ap-south-1'}
+  stage: ${opt:stage, 'production'}
+  memorySize: 256
+  timeout: 15
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI, 'mongodb+srv://atique:atique@cluster0.dgfcd.mongodb.net/firstdb?retryWrites=true&w=majority'}
+    CORS_ORIGIN: ${env:CORS_ORIGIN, 'http://localhost:4200'}
+
+functions:
+  api:
+    handler: handler.api
+    events:
+      - http:
+          path: /
+          method: any
+      - http:
+          path: /{proxy+}
+          method: any
+
+package:
+  patterns:
+    - '!.git/**'
+    - '!README.md'
+    - '!.env'
+
+plugins:
+  - serverless-offline

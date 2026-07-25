@@ -1,22 +1,14 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
+// Local development server (use `npm run dev` or `npm start`)
+const app = require('./app.js');
+const { connectDB } = require('./db.js');
 
-const mongoose = require('./db.js');
-const personController = require('./controllers/personController.js')
+const PORT = process.env.PORT || 3000;
 
- var app = express();
- app.use(bodyParser.json());
- app.use(cors({ origin : 'http://localhost:4200' }));
- 
- //Application testing API's
- app.get('/app/testing',(req,res) =>{
-    res.send({
-      "message":"App is working fine",
-      "status":200
-    })
- })
-
- app.listen(3000, () => console.log('Server connected to port: 3000'))
-
- app.use('/person',personController)
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Error in DB connection:', err);
+    process.exit(1);
+  });

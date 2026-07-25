@@ -1,11 +1,23 @@
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/firstdb', { useNewUrlParser:true, useUnifiedTopology: true }, (err) => {
-    if(!err){
-        console.log('MongoDB connected...')
-    } else
-    {
-        console.log('Error in DB connection: ' + JSON.stringify(err, undefined, 2) );
-    }
-})
+const mongoose = require('mongoose');
 
-module.exports = mongoose
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  'mongodb+srv://atique:atique@cluster0.dgfcd.mongodb.net/firstdb?retryWrites=true&w=majority';
+
+// Cache the connection across Lambda invocations (warm starts reuse the container)
+let cachedConnection = null;
+
+async function connectDB() {
+  if (cachedConnection && mongoose.connection.readyState === 1) {
+    return cachedConnection;
+  }
+
+  cachedConnection = await mongoose.connect(MONGODB_URI, {
+    serverSelectionTimeoutMS: 5000,
+  });
+
+  console.log('MongoDB connected...');
+  return cachedConnection;
+}
+
+module.exports = { connectDB };

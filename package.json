@@ -1,18 +1,29 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "MEAN stack CRUD backend, deployable to AWS Lambda via Serverless Framework",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "serverless deploy",
+    "offline": "serverless offline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.16.3",
-    "mongoose": "^5.7.12",
-    "nodemon": "^1.18.4"
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "serverless": "^3.40.0",
+    "serverless-offline": "^13.10.1"
   }
 }
